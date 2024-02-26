@@ -29,30 +29,110 @@ console.log(User.showAge(user3, user4));
 ////////////////////////////////////////
 ///////////////////////////////////////////////
 ////////////////////////////////////////////////////////
+let petNameField = document.getElementById("testo1");
+let ownerNameField = document.getElementById("testo2");
+let speciesField = document.getElementById("testo3");
+let breedField = document.getElementById("testo4");
 
-const formNode = document.querySelector("form");
-formNode.onsubmit = function (e) {
-  e.preventDefault();
-  const compilazione = document.querySelector("#testo");
+let petList = document.getElementById("lista");
+let addButton = document.getElementById("add");
 
-  function dati() {
-    const pet = document.querySelector("#testo1");
-    const padrone = document.querySelector("#testo2");
-    const specie = document.querySelector("#testo3");
-    const razza = document.querySelector("#testo4");
-    const datiUtenti = pet.value + padrone.value + specie.value + razza.value;
-    console.log(datiUtenti);
+let pets = [];
+
+class Pet {
+  constructor(petName, ownerName, species, breed) {
+    this.petName = petName;
+    this.ownerName = ownerName;
+    this.species = species;
+    this.breed = breed;
   }
 
-  class Pet {
-    constructor(petName, ownerName, species, breed) {
-      this.petName = petName;
-      this.ownerName = ownerName;
-      this.species = species;
-      this.breed = breed;
-    }
-    static sameOwner(owner1, owner2) {
-      return owner1.ownerName === owner2.ownerName;
+  checkSameOwner(anotherPet) {
+    if (this.ownerName === anotherPet.ownerName) {
+      return true;
+    } else {
+      return false;
     }
   }
+}
+
+const renderList = function () {
+  petList.innerHTML = ""; // <-- svuota la lista all'inizio
+  pets.forEach((pet) => {
+    const newLi = document.createElement("li");
+    newLi.innerText =
+      "Nome animale: " +
+      pet.petName +
+      " Proprietario: " +
+      pet.ownerName +
+      " Species: " +
+      pet.speciesField +
+      " Breed: " +
+      pet.breed;
+    petList.appendChild(newLi);
+  });
 };
+
+addButton.onclick = function () {
+  let newPet = new Pet(petNameField.value, ownerNameField.value, speciesField.value, breedField.value);
+  pets.push(newPet);
+  renderList();
+  petNameField.value = "";
+  ownerNameField.value = "";
+  speciesField.value = "";
+  breedField.value = "";
+};
+
+/*
+const petArr = [];
+
+class Pet {
+  constructor(petName, ownerName, species, breed) {
+    this.petName = petName;
+    this.ownerName = ownerName;
+    this.species = species;
+    this.breed = breed;
+  }
+  static sameOwner(pet1, pet2) {
+    if (pet1.ownerName === pet2.ownerName) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
+console.log(Pet.sameOwner(petArr[1], petArr[2]));
+console.log(Pet.sameOwner(petArr[2], petArr[3]));
+
+const formNode = document.querySelector("#petForm");
+
+formNode.onclick = function (e) {
+  e.preventDefault();
+
+  const petName = document.getElementById("testo1").value;
+  const ownerName = document.getElementById("testo2").value;
+  const species = document.getElementById("testo3").value;
+  const breed = document.getElementById("testo4").value;
+  const pet = new Pet(petName, ownerName, species, breed);
+  petArr.push(pet);
+  const lista = document.getElementById("lista");
+  const li = document.createElement("li");
+  li.innerText =
+    "Pet name:" +
+    " " +
+    pet.petName +
+    "Owner name:" +
+    " " +
+    pet.ownerName +
+    "Species:" +
+    " " +
+    pet.species +
+    "Breed:" +
+    " " +
+    pet.breed;
+
+  lista.appendChild(li);
+  petName.value = "";
+  ownerName.value = "";
+};
+*/
